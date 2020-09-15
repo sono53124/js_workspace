@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width:700px;
+    height:700px;
+    background:turquoise;
+    margin:auto;
+    position:relative; /*자식에 포지션을 주었으니 부모도 포지션을 적용*/
+}
+</style>
+<script>
+var x=50,y=80; //박스의 x.y좌표를 결정하는 변수
+var box; //문서내의 div박스를 담아놓을 전역변수
+//문서가 로드되면, 초기화할 작업을 아래의 init함수에서 처리해보자!
+function init(){
+    //박스의 스타일을 css에서가 아니라, js 프로그래밍을 처리한다
+    box=document.getElementById("box"); //전역변수에 보관
+    //효과적으로는 달라질게 없으나, css를 프로그램으로 제어할수있다..
+    box.style.width=50+"px";
+    box.style.height=50+"px";
+    box.style.background="red";
+    box.style.position="absolute";
+    box.style.left=x+"px";
+    box.style.top=y+"px";
+}
+function move(){
+    
+
+    box.style.left=x+"px";
+    box.style.top=y+"px";
+
+}
+</script>
+</head>
+<body onload="init()">
+    <div id="wrapper">
+        <button onclick="move()">수동</button>
+        <button >자동</button>
+        <div id="box"></div>
+    </div>
+</body>
+</html>
