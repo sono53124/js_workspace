@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script>
+var x=0,y=0; //ball의 x,y좌표를 결정짓는 전역변수
+
+var stepX=5,stepY=4; //초기 x,y의 증가량
+
+var wrapper;//다른 함수에서 접근하기 위해 전역변수로 선언
+
+var ball; //전역변수로 선언해야 다른 함수에서 접근 가능
+         //즉 브라우저가 종료될때까지 살아있어야, 다른 함수에서 사용가능
+
+
+/* 이 예제에서는 body에 직접 태그를 작성하지 말자
+순수 자바스크립트로만, 디자인까지 작성해보자...(실력향상을 위해)*/
+function init(){
+    //alert('문서를 다 읽었어요.')
+    createButton();
+
+    wrapper=document.createElement("div"); //<div></div> 와 동일
+    wrapper.style.width=600+"px";
+    wrapper.style.height=600+"px";
+    wrapper.style.background="yellow";
+    wrapper.style.margin="auto";
+    wrapper.style.position="relative"; //자식에 position을 줘서 부모도 적용해야함
+    document.body.appendChild(wrapper); // 태그안에 추가
+
+    //공 추가하기
+    ball=document.createElement("img"); //  <img/> 와 동일
+    ball.src="../images/ball/ball2.png"; // <img src=""/> 와 동일
+    ball.style.width=50+'px';
+    ball.style.height=50+'px';
+    ball.style.position="absolute"; //부모인 wrapper를 기준
+    ball.style.left=100+"px";
+    ball.style.top=50+"px";
+    wrapper.appendChild(ball); //body가 아니라 wrapper에 추가
+
+    
+}
+function createButton(){
+    //동적으로 버튼을 생성하고, click 이벤트 마저도 프로그래밍적으로
+    //처리해보자
+    var bt1=document.createElement("button"); //수동버튼
+    var bt2=document.createElement("button"); //자동버튼
+
+    //버튼에 click 이벤트 추가하기
+    bt1.addEventListener("click",function(){
+        //이름없는 함수를 익명함수라 하고, 이 영역에 코드를 작성하면
+        //해당 이벤트가 발생했을때, 이 코드가 동작하게 된다.
+        //수동 움직임..sd
+        move();
+        //alert("나 눌렀어?");
+        }); //버튼에 이벤트 감지가 등록
+
+    bt1.innerText="수동"; //button 사이에 수동이라고 적은것과 동일
+    bt2.innerText="자동"; //button 사이에 자동이라고 적은것과 동일
+    document.body.appendChild(bt1);
+    document.body.appendChild(bt2);
+}
+
+//공의 좌표를 증,감 시켜 움직임 효과를 내본다
+function move(){
+    //증감처리
+    x+=stepX; 
+    y+=stepY;
+
+    //공의 좌표를 변경 
+    ball.style.left=x+"px";
+    ball.style.top=y+"px";
+
+    //공이 벽에 도달하는 좌표 = 벽x,y좌표 - 공의높이,너비
+    if(x == (parseInt(wrapper.style.width)-parseInt(ball.style.width)) ){
+        ball.style.border="1px solid red";
+        stepX = -stepX; //부호 반대로 전환
+    }
+
+    //바닥반전
+    if(y >= (parseInt(wrapper.style.height)-parseInt(ball.style.height)) ){
+        stepY = -stepY;
+    }
+
+    //좌측 벽에 닿을때
+    if(x<=0){
+        stepX = -stepX;
+    }
+
+    //천장에 닿을때
+    if(y<=0){
+        stepY = -stepY;
+    }
+}
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>

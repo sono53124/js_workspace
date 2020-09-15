@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script>
+function auto(){
+    setInterval("createBall()",500);
+}
+var count=0;
+function createBall(){
+    count++;
+    console.log("count is " , count);
+
+    var ball=document.createElement("img");
+    //변수 n의 값을 텍스트 박스로부터 구하자
+    var n=document.getElementById("txt").value;
+    n=parseInt(n); //주의) parseInt() 대상이 될 수 있는건 "쌍따옴표"를
+    //벗겼을때 정수가 될 수 있는 문자만 가능하다..
+    //"1","23","aa"
+    var path = document.getElementById("path").value;
+
+    /*
+    if(count%n!=0){
+    ball.src="../images/ball/ball1.png";
+    }else{
+    ball.src="../images/ball/ball2.png";
+    }
+    document.body.appendChild(ball);
+    */
+    ball.src=(count%n==0)? path:"../images/ball/ball1.png";
+    
+    ball.style.border="2px solid red";
+    
+    ball.style.width=50+"px";
+
+    document.body.appendChild(ball);
+}
+</script>
+</head>
+<body>
+    <input id="txt" type="text" placeholder="몇번째 마다 공을 생성할지 숫자입력"/>
+    <input id="path" type="text" placeholder="사용할 이미지 경로"/>
+    <button onclick="createBall()">생성</button>
+    <button onclick="auto()">오토 공생성</button>
+    <br>
+</body>
+</html>
