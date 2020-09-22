@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width: 600px;
+    height: 600px;
+    background:lightblue;
+    margin:auto;
+}
+#mask{
+    width:200px;
+    height:200px;
+    background:lightcoral;
+    position:relative;
+    left: 200px;
+    top: 200px;
+    overflow: hidden;
+}
+#box{
+    width:600px;
+    height:600px;
+    background: lightgreen;
+}
+</style>
+
+<script>
+var x,y;
+var targetX,targetY;
+let a=0.1;
+
+window.addEventListener("load", function(){
+    init();
+    setInterval("move",10);
+});
+
+function init(){
+    box = document.getElementById("box");
+    box.style.position="relative";
+    box.style.left=x+"px";
+    box.style.top=y+"px";
+
+    for(var i=1; i<=9; i++){
+        var img=document.createElement("img"); //<img/>와 동일
+        img.src="../images/travel/"+i+".jpg"; // <img src=""/>와 동일
+        img.style.width=200+"px";
+        img.style.height=200+"px";
+        img.style.position="absolute";
+        img.style.left=(i-1)*200+"px";
+        
+        box.appendChild(img);
+    }
+        img.style.top=(a-1)*200+"px";
+}
+
+function move(){
+    targetX=x;
+    targetY=y;
+    
+    box.style.left = parseFloat(box.style.left) + a*(targetX - parseFloat(box.style.left))+"px";
+    box.style.top = parseFloat(box.style.top) + a*(targetY - parseFloat(box.style.top))+"px";
+    
+}
+
+function joystick(){
+    switch(event.keyCode){
+        case 37: 
+        console.log("좌측이동");
+        moveLeft(); 
+        console.log(targetX,targetY); break;
+        case 38: 
+        console.log("위로이동");
+        moveUp();   
+        console.log(targetX,targetY); break;
+        case 39:
+        console.log("우측이동");
+        moveRight(); 
+        console.log(targetX,targetY); break;
+        case 40:
+        console.log("아래이동");
+        moveDown(); 
+        console.log(targetX,targetY); break;
+    }
+}
+
+
+function moveRight(){
+    x += 200;
+    box.style.left=x+"px";
+    targetX=x;
+}
+function moveLeft(){
+    x -= 200;
+    box.style.left=x+"px";
+}
+function moveUp(){
+    y -= 200;
+    box.style.top=y+"px";
+    targetY=y;
+}
+function moveDown(){
+    y += 200;
+    box.style.top=y+"px";
+}
+
+
+
+</script>
+</head>
+<body onkeydown="joystick()">
+    <div id="wrapper">
+        <div id="mask">
+            <div id="box" ></div>
+        </div>
+    </div>
+    
+</body>
+</html>
