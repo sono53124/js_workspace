@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#ball{
+    width:50px;
+    height:50px;
+    background:red;
+    border-radius: 50%;
+    margin:0px;
+}
+
+</style>
+<script>
+var ball;
+let a=0.1;
+
+var xx;
+var yy;
+var targetX=0;
+var targetY=50;
+
+
+function init(){
+    ball = document.getElementById("ball");
+    ball.style.position="absolute";
+    ball.style.left=targetX+"px";
+    ball.style.top=targetY+"px";
+    setInterval("move()", 50);
+
+    
+}
+function auto(){
+    xx =document.querySelector("#xx").value;
+    yy =document.querySelector("#yy").value;
+    xx=parseInt(xx);
+    yy=parseInt(yy);
+    
+}
+
+function move(){
+    
+    targetX=xx;
+    targetY=yy;
+    console.log(targetX,targetY);
+    
+    ball.style.left=parseInt(ball.style.left)+a*(xx-parseInt(ball.style.left))+"px";
+    ball.style.top=parseInt(ball.style.top)+a*(yy-parseInt(ball.style.top))+"px";
+    
+}
+</script>
+</head>
+<body onload="init()">
+    
+    x축<input type="number" id="xx"/>
+    y축<input type="number" id="yy"/>
+    <button onclick="auto()">이동</button>
+
+    <div id="ball"></div>
+
+</body>
+</html>
