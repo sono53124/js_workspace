@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<script src="../js/lib.js"></script>
+<script>
+var arrow=[];
+var color=["red","orange","purple","green","blue"]
+function createImg(){
+    for(var i=1; i<=5; i++){
+        var div=document.createElement("div");
+        div.style.width=50+"px";
+        div.style.height=20+"px";
+        div.style.position="absolute";
+        div.innerText="→";
+        div.style.color=color[i];
+        div.style.left=0+"px";
+        div.style.top=i*50+"px";
+
+        document.body.appendChild(div);
+
+        arrow.push(div);
+    }
+}
+
+function move(){
+    for(var i=0; i<arrow.length; i++){
+        arrow[i].style.left = parseInt(arrow[i].style.left) + getRandom(5)+"px";
+    }
+}
+
+window.addEventListener("load", function(){
+    createImg();
+    setInterval("move()",20);
+});
+</script>
+<body>
+</body>
+</html>

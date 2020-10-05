@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+body{
+    margin:0px;
+}
+#wrapper{
+    width:100%;
+    height:640px;
+    background:url(../images/shooting/bg.jpg);
+}
+</style>
+<script>
+/*어떤 경우에 .js 로 분리시켜야 하는가?
+기준 : 재사용성이 기준*/
+</script>
+<script src="./Hero.js"></script>
+<script src="./Enemy.js"></script>
+<script src="./Bullet.js"></script>
+<script>
+/*
+게임에 움직임을 처리하기 위해서는 setInterval()과 같은 자동함수의 사용이 필수이다.
+이때, 이 자동함수는 가급적 1개만 만들어야 동기화에 문제가 생기지 않는다...
+게임 가동과 함께, 엔진이라고 할 수 있는 setInterval 을 작동시켜 놓자
+*/
+//모든 게임의 객체들을 대상으로 주기적 함수 호출을 시도할 엔진 루프
+var count=0;
+var wrapper;
+var bullet;
+var hero; //주인공을 가리키는 변수
+var bgX=0;//좌측으로 움직여야 하므로
+var enemy=[];
+var enemySrc=[
+    "../images/shooting/e1.png",
+    "../images/shooting/e2.png",
+    "../images/shooting/e3.png",
+    "../images/shooting/e4.png",
+    "../images/shooting/e5.png"
+];
+
+//주인공 등장시키는 함수
+function createHero(){
+    //주인공 거푸집인 Hore 클래스로부터 주인공 인스턴스 1개를 생성해본다
+    //생성된 객체를 제어하려면 변수가 필요하다.
+    hero=new Hero(wrapper,100,300,100,75);//container라는 변수값이 wrapper가 된다.
+    //container,x,y,width,height
+}
+
+//적 생성
+function createEnemy(){
+    //(container,width,height,x,y,src)
+    for(var i=0; i<enemySrc.length; i++){
+        new Enemy(wrapper,70,50,screen.width-150,100+i*70,enemySrc[i],20);
+        enemy.push(Enemy);
+    }
+
+    //모니터 크기를 확인가능
+    //alert("당신의 모니터 스크린의 너비"+screen.width+",높이는"+screen.height);
+}
+//총알 생성
+function createBullet(){
+    bullet=new Bullet(wrapper,30,30,hero.x,hero.y,10);
+}
+
+//배경 움직임 처리
+function moveBg(){
+    bgX-=2; //누적
+    wrapper.style.backgroundPosition=bgX+"px 0px";
+}
+
+//게임에 등장하는 모든 요소를 움직여주는 심장
+function gameLoop(){
+    //count++//게임 프레임 확인
+    //console.log("count : ", count);
+    moveBg();
+    bullet.move();
+}
+function init(){
+    wrapper = document.getElementById("wrapper");
+    //interval에 지정한 시간은 게임의 실행 속도를 좌우한다(Frame Per Second)
+    //1초마다 몇번의 실행을 하는지에 대한 빈도수
+    setInterval("gameLoop()",10);//게임 루프 가동 시작
+    createHero();
+    createEnemy();
+    document.body.addEventListener("keydown",function(e){
+        if(e.keyCode==32){
+            createBullet();
+        }
+        if(e.keyCode==18){
+
+        }
+    })
+}
+
+window.addEventListener("load",function(){
+    init();
+    
+});
+</script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>
