@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+body{margin:0px;}
+#wrapper{
+    width:1280px;
+    height:640px;
+    background:yellow;
+    margin:auto;
+    background-image: url(../images/shooting/bg.jpg);
+    position: relative;
+    left:0;
+    overflow: hidden;
+}
+</style>
+<script src="./GameObject.js">//부모 클래스를 먼저 선언</script>
+<script src="./Hero.js"></script>
+<script src="./Enemy.js"></script>
+<script src="./Bullet.js"></script>
+<script>
+var wrapper;
+var hero;
+var enemy;
+var bulletArray=new Array(); //총알을 담을 배열
+var bgX;
+
+function createHero(){
+    hero = new Hero(wrapper,"../images/shooting/plane.png",100,60,100,100,0,0);
+}
+function createEnemy(){
+    enemy = new Enemy(wrapper,"../images/shooting/e1.png",100,100,900,100,0,0);
+    enemy = new Enemy(wrapper,"../images/shooting/e2.png",100,100,900,200,0,0);
+    enemy = new Enemy(wrapper,"../images/shooting/e3.png",100,100,900,300,0,0);
+    enemy = new Enemy(wrapper,"../images/shooting/e4.png",100,100,900,400,0,0);
+}
+function createBullet(){
+    var bullet = new Bullet(wrapper,"../images/shooting/ball.png",25,25,hero.x,hero.y,10,0);
+    bulletArray.push(bullet);
+}
+//우주선 움직이기
+function move(velX,velY){
+    hero.velX=velX;
+    hero.velY=velY;
+}
+function gameLoop(){
+    console.log(bgEffect());
+    hero.tick();
+    hero.render();
+    enemy.tick();
+    enemy.render();
+    for(var i=0;i<bulletArray.length;i++){
+        bulletArray[i].tick();
+        bulletArray[i].render();
+    }
+    
+}
+function init(){
+    wrapper = document.getElementById("wrapper");
+    //키보드 이벤트 구현하기
+    document.body.addEventListener("keydown", function(e){
+        //spacebar 누르면 총알 생성!!
+        //alert(e.keyCode);
+        switch(e.keyCode){
+            case 32 : createBullet(); break;
+            case 37 : move(-5,0); break;
+            case 39 : move(5,0); break;
+            case 38 : move(0,-5); break;
+            case 40 : move(0,5); break;
+        }
+    });
+    document.body.addEventListener("keyup", function(e){
+        switch(e.keyCode){
+            case 37: move(0,0); break;
+            case 38: move(0,0); break;
+            case 39: move(0,0); break;
+            case 40: move(0,0); break;
+            
+        }
+    });
+}
+//load이유 : 모든 태그마다 1:1 대응되는 객체인 DOM이 메모리에
+//          올라올 때까지 기다렸다가 실행하기 위해서
+window.addEventListener("load", function(){
+    init();
+    createHero();
+    createEnemy();
+    setInterval("gameLoop()",10);
+});
+</script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>
